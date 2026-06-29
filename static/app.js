@@ -21,6 +21,9 @@ async function fetchSignal() {
 
     const el = document.getElementById("signal");
     if (el) el.textContent = `${data.signal ?? "—"} — ${data.reason ?? ""}`;
+
+    const ma20El = document.getElementById("ma20");
+    if (ma20El) ma20El.textContent = `MA20: ${data.ma20 ?? "N/A"}`;
   } catch (err) {
     console.error("Signal fetch failed:", err);
   }
