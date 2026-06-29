@@ -1,6 +1,23 @@
+import yfinance as yf
+
+
 def get_market_data():
-    return {
-        "nifty": "Loading...",
-        "bank_nifty": "Loading...",
-        "market_status": "Checking..."
-    }
+    try:
+        nifty = yf.Ticker("^NSEI")
+        bank = yf.Ticker("^NSEBANK")
+
+        nifty_price = nifty.fast_info.get("lastPrice", "N/A")
+        bank_price = bank.fast_info.get("lastPrice", "N/A")
+
+        return {
+            "nifty": nifty_price,
+            "bank_nifty": bank_price,
+            "market_status": "LIVE"
+        }
+
+    except Exception:
+        return {
+            "nifty": "Error",
+            "bank_nifty": "Error",
+            "market_status": "Offline"
+        }

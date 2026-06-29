@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from datetime import datetime, timezone
+from api.market import get_market_data
 
 app = FastAPI(
     title="Nifty AI Pro",
@@ -15,3 +17,10 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 def home():
     with open("templates/index.html", "r", encoding="utf-8") as file:
         return HTMLResponse(content=file.read())
+
+
+@app.get("/market")
+def market():
+    data = get_market_data()
+    data["last_update"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    return data

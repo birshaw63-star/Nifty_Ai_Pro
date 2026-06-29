@@ -1,0 +1,18 @@
+async function fetchMarket() {
+  try {
+    const response = await fetch("/market");
+    const data = await response.json();
+
+    document.getElementById("nifty").textContent = data.nifty ?? "N/A";
+    document.getElementById("banknifty").textContent = data.bank_nifty ?? "N/A";
+    document.getElementById("market").textContent = data.market_status ?? "N/A";
+
+    const lastUpdate = document.getElementById("last_update");
+    if (lastUpdate) lastUpdate.textContent = data.last_update ?? "";
+  } catch (err) {
+    console.error("Market fetch failed:", err);
+  }
+}
+
+fetchMarket();
+setInterval(fetchMarket, 5000);
