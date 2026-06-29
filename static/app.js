@@ -14,5 +14,19 @@ async function fetchMarket() {
   }
 }
 
+async function fetchSignal() {
+  try {
+    const response = await fetch("/signal");
+    const data = await response.json();
+
+    const el = document.getElementById("signal");
+    if (el) el.textContent = `${data.signal ?? "—"} — ${data.reason ?? ""}`;
+  } catch (err) {
+    console.error("Signal fetch failed:", err);
+  }
+}
+
 fetchMarket();
+fetchSignal();
 setInterval(fetchMarket, 5000);
+setInterval(fetchSignal, 5000);
